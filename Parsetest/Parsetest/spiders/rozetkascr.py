@@ -4,13 +4,10 @@ from scrapy.spiders import CrawlSpider
 from scrapy.linkextractors import LinkExtractor
 from scrapy.http.request import Request
 
+
 class RozetkascrSpider(scrapy.Spider):
     name = 'rozetkascr'
-    # # allowed_domains = ['rozetka.com.ua']
     start_urls = ['https://rozetka.com.ua/']
-
-
-
 
 
     def parse(self, response):
