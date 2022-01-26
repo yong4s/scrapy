@@ -15,8 +15,8 @@ class RozetkascrSpider(scrapy.Spider):
             yield response.follow(link, callback=self.parse_category)
 
     def parse_category(self, response):
-        for link1 in response.css('a.tile-cats__heading.tile-cats__heading_type_center.ng-star-inserted::attr(href)').extract():
-            yield response.follow(link1, callback=self.parse_products)
+        for link in response.css('a.tile-cats__heading.tile-cats__heading_type_center.ng-star-inserted::attr(href)').extract():
+            yield response.follow(link, callback=self.parse_products)
 
     def parse_products(self, response):
         item = RozItem()
