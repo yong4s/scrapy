@@ -1,8 +1,5 @@
 import scrapy
 from Parsetest.items import RozItem
-from scrapy.spiders import CrawlSpider
-from scrapy.linkextractors import LinkExtractor
-from scrapy.http.request import Request
 
 
 class RozetkascrSpider(scrapy.Spider):
@@ -28,7 +25,6 @@ class RozetkascrSpider(scrapy.Spider):
         next_page = response.css('a.button.button--gray.button--medium.pagination__direction.pagination__direction--forward.ng-star-inserted').attrib['href']
         if next_page is not None:
             yield response.follow(next_page, callback=self.parse_products)
-
 
 
 
