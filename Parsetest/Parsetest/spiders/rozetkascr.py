@@ -1,5 +1,6 @@
 import scrapy
 from Parsetest.items import RozItem
+from scrapy.loader import ItemLoader
 
 
 class RozetkascrSpider(scrapy.Spider):
@@ -16,15 +17,16 @@ class RozetkascrSpider(scrapy.Spider):
             yield response.follow(link, callback=self.parse_products)
 
     def parse_products(self, response):
-        item = RozItem()
         for products in response.css('li.catalog-grid__cell.catalog-grid__cell_type_slim.ng-star-inserted'):
-            item['name'] = products.css('span.goods-tile__title::text').get()
-            item['price'] = products.css('p.ng-star-inserted span.goods-tile__price-value::text').get().replace('\xa0', '')
-            yield item
+            l = ItemLoader(item = RozItem(), selector=products)
+
+            l.add_css('name', 'span.goods-tile__title')
+            l.add_css('price', 'span.goods-tile__price-value')
+
+            yield l.load_item()
 
         next_page = response.css('a.button.button--gray.button--medium.pagination__direction.pagination__direction--forward.ng-star-inserted').attrib['href']
         if next_page is not None:
             yield response.follow(next_page, callback=self.parse_products)
-
 
 
